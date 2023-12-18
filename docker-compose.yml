@@ -1,7 +1,7 @@
 version: "3.9"
 services:
  project-api-service:
-  image: brentw53/apidev-project
+  image: brentw53/apidev-project-end
   ports:
     - "8000:8000"
   volumes:
