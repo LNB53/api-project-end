@@ -55,17 +55,29 @@ def test_create_player():
 
 
 # Test the OAuth-token functionality
-headers_ = {
-    "accept": "application/json",
-    "Content-Type": "application/x-www-form-urlencoded"
-}
+def test_token():
+    headers = {
+        "accept": "application/json",
+        "Content-Type": "application/x-www-form-urlencoded"
+    }
 
-request_data = {
-    "client_id": "",
-    "client_secret": "",
-    "scope": "",
-    "grant_type": "",
-    "refresh_token": "",
-    "username": "t@t.be",
-    "password": "test"
-}
+    request_data = {
+        "client_id": "",
+        "client_secret": "",
+        "scope": "",
+        "grant_type": "",
+        "refresh_token": "",
+        "username": "test",
+        "password": "abc123!"
+    }
+
+    token_request = requests.post("http://localhost:8000/token", data=request_data, headers=headers)
+    # print(token_request.text) -> test purposes
+    token = json.loads(token_request.text)["access_token"]
+
+    headers_with_token = {
+        "accept": "application/json",
+        "Authorization": f'Bearer {token}'
+    }
+    get_request = requests.get("http://localhost:8000/users/me", headers=headers_with_token)
+    # print(get_request.text) -> test purposes
