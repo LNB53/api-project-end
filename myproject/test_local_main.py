@@ -28,7 +28,7 @@ def test_create_player():
         "password": "abc123!"}
 
     # Non-existing player
-    response_1 = requests.post("https://project-api-service-wobr53.cloud.okteto.net/players", json=payload_1, headers=headers)
+    response_1 = requests.post("http://127.0.0.1:8000/players", json=payload_1, headers=headers)
     assert response_1.status_code == 200
     assert json.loads(response_1.text) == {
         "username": "test",
@@ -39,13 +39,13 @@ def test_create_player():
         "progress": []}
 
     # Already registered username
-    response_2 = requests.post("https://project-api-service-wobr53.cloud.okteto.net/players", json=payload_2, headers=headers)
+    response_2 = requests.post("http://127.0.0.1:8000/players", json=payload_2, headers=headers)
     assert response_2.status_code == 400
     response_dict_2 = json.loads(response_2.text)
     assert response_dict_2["detail"] == "Username already registered"
 
     # Already registered email
-    response_3 = requests.post("https://project-api-service-wobr53.cloud.okteto.net/players", json=payload_3, headers=headers)
+    response_3 = requests.post("http://127.0.0.1:8000/players", json=payload_3, headers=headers)
     assert response_3.status_code == 400
     response_dict_3 = json.loads(response_3.text)
     assert response_dict_3["detail"] == "Email already registered"
@@ -68,7 +68,7 @@ def test_token():
         "password": "abc123!"
     }
 
-    token_request = requests.post("https://project-api-service-wobr53.cloud.okteto.net/token", data=request_data, headers=headers)
+    token_request = requests.post("http://localhost:8000/token", data=request_data, headers=headers)
     token = json.loads(token_request.text)["access_token"]
 
     headers_with_token = {
@@ -82,12 +82,12 @@ def test_token():
 # Test get_players function - END: GET /players
 def test_get_players():
     # Unauthenticated
-    response_1 = requests.get("https://project-api-service-wobr53.cloud.okteto.net/players")
+    response_1 = requests.get("http://127.0.0.1:8000/players")
     response_dict_1 = json.loads(response_1.text)
     assert response_dict_1["detail"] == "Not authenticated"
 
     # Authenticated
-    response_2 = requests.get("https://project-api-service-wobr53.cloud.okteto.net/players", headers=test_token())
+    response_2 = requests.get("http://127.0.0.1:8000/players", headers=test_token())
     assert response_2.status_code == 200
     assert json.loads(response_2.text) == [{
         "username": "test",
@@ -101,13 +101,13 @@ def test_get_players():
 # Test if the get_player_by_username function works correctly - END: GET /players/{username}
 def test_get_player_by_username():
     # Unauthenticated
-    response = requests.get("https://project-api-service-wobr53.cloud.okteto.net/players/test")
+    response = requests.get("http://127.0.0.1:8000/players/test")
     assert response.status_code == 401
     response_dict = json.loads(response.text)
     assert response_dict["detail"] == "Not authenticated"
 
     # Authenticated, existing player
-    response_1 = requests.get("https://project-api-service-wobr53.cloud.okteto.net/players/test", headers=test_token())
+    response_1 = requests.get("http://127.0.0.1:8000/players/test", headers=test_token())
     # assert response_1.status_code == 200
     assert json.loads(response_1.text) == {
         "username": "test",
@@ -118,7 +118,7 @@ def test_get_player_by_username():
         "progress": []}
 
     # Authenticated, non-existing player
-    response_2 = requests.get("https://project-api-service-wobr53.cloud.okteto.net/players/test_2", headers=test_token())
+    response_2 = requests.get("http://127.0.0.1:8000/players/test_2", headers=test_token())
     assert response_2.status_code == 404
     response_dict_2 = json.loads(response_2.text)
     assert response_dict_2["detail"] == "Username not found"
@@ -143,7 +143,7 @@ def test_create_games():
     }
 
     # Non-existing game
-    response_1a = requests.post("https://project-api-service-wobr53.cloud.okteto.net/games", json=payload_1, headers=headers)
+    response_1a = requests.post("http://127.0.0.1:8000/games", json=payload_1, headers=headers)
     assert response_1a.status_code == 200
     assert json.loads(response_1a.text) == {
         "title": "game_1",
@@ -155,26 +155,26 @@ def test_create_games():
     }
 
     # Existing game title with same release date
-    response_1b = requests.post("https://project-api-service-wobr53.cloud.okteto.net/games", json=payload_1, headers=headers)
+    response_1b = requests.post("http://127.0.0.1:8000/games", json=payload_1, headers=headers)
     assert response_1b.status_code == 400
     response_dict_1 = json.loads(response_1b.text)
     assert response_dict_1["detail"] == "Game already registered"
 
     # Existing game title with different release date
-    response_2 = requests.post("https://project-api-service-wobr53.cloud.okteto.net/games", json=payload_2, headers=headers)
+    response_2 = requests.post("http://127.0.0.1:8000/games", json=payload_2, headers=headers)
     assert response_2.status_code == 200
 
 
 # Test get_games functions - END: GET /games
 def test_get_games():
     # Unauthenticated
-    response_1 = requests.get("https://project-api-service-wobr53.cloud.okteto.net/games")
+    response_1 = requests.get("http://127.0.0.1:8000/games")
     assert response_1.status_code == 401
     response_dict_1 = json.loads(response_1.text)
     assert response_dict_1["detail"] == "Not authenticated"
 
     # Authenticated
-    response_2 = requests.get("https://project-api-service-wobr53.cloud.okteto.net/games", headers=test_token())
+    response_2 = requests.get("http://127.0.0.1:8000/games", headers=test_token())
     assert response_2.status_code == 200
     assert json.loads(response_2.text) == [
         {
@@ -224,7 +224,7 @@ def test_create_progress():
     }
 
     # Non-existing progress
-    response_1a = requests.post("https://project-api-service-wobr53.cloud.okteto.net/progress", json=payload_1, headers=headers)
+    response_1a = requests.post("http://127.0.0.1:8000/progress", json=payload_1, headers=headers)
     assert response_1a.status_code == 200
     assert json.loads(response_1a.text) == {
         "player_id": 1,
@@ -236,19 +236,19 @@ def test_create_progress():
     }
 
     # Existing progress entry
-    response_1b = requests.post("https://project-api-service-wobr53.cloud.okteto.net/progress", json=payload_1, headers=headers)
+    response_1b = requests.post("http://127.0.0.1:8000/progress", json=payload_1, headers=headers)
     assert response_1b.status_code == 400
     response_dict_1 = json.loads(response_1b.text)
     assert response_dict_1["detail"] == "Progress entry already exists"
 
     # Non-existing player
-    response_2 = requests.post("https://project-api-service-wobr53.cloud.okteto.net/progress", json=payload_2, headers=headers)
+    response_2 = requests.post("http://127.0.0.1:8000/progress", json=payload_2, headers=headers)
     assert response_2.status_code == 404
     response_dict_2 = json.loads(response_2.text)
     assert response_dict_2["detail"] == "Player not found"
 
     # Non-existing game
-    response_3 = requests.post("https://project-api-service-wobr53.cloud.okteto.net/progress", json=payload_3, headers=headers)
+    response_3 = requests.post("http://127.0.0.1:8000/progress", json=payload_3, headers=headers)
     assert response_3.status_code == 404
     response_dict_3 = json.loads(response_3.text)
     assert response_dict_3["detail"] == "Game not found"
@@ -257,13 +257,13 @@ def test_create_progress():
 # Test get_progress function - END: GET /progress
 def test_get_progress():
     # Unauthenticated
-    response_1 = requests.get("https://project-api-service-wobr53.cloud.okteto.net/progress")
+    response_1 = requests.get("http://127.0.0.1:8000/progress")
     assert response_1.status_code == 401
     response_dict_1 = json.loads(response_1.text)
     assert response_dict_1["detail"] == "Not authenticated"
 
     # Authenticated
-    response_2 = requests.get("https://project-api-service-wobr53.cloud.okteto.net/progress", headers=test_token())
+    response_2 = requests.get("http://127.0.0.1:8000/progress", headers=test_token())
     assert response_2.status_code == 200
     assert json.loads(response_2.text) == [{
         "player_id": 1,
@@ -286,7 +286,7 @@ def test_update_progress():
     }
 
     # Updatable progress
-    response_1a = requests.put("https://project-api-service-wobr53.cloud.okteto.net/progress?player=1&game=1", json=payload_1, headers=headers)
+    response_1a = requests.put("http://127.0.0.1:8000/progress?player=1&game=1", json=payload_1, headers=headers)
     assert response_1a.status_code == 200
     assert json.loads(response_1a.text) == {
         "game_id": 1,
@@ -298,12 +298,12 @@ def test_update_progress():
     }
 
     # Non-existing player
-    response_1b = requests.put("https://project-api-service-wobr53.cloud.okteto.net/progress?player=0&game=1", json=payload_1, headers=headers)
+    response_1b = requests.put("http://127.0.0.1:8000/progress?player=0&game=1", json=payload_1, headers=headers)
     assert response_1b.status_code == 404
     assert json.loads(response_1b.text)["detail"] == "Player not found"
 
     # Non-existing game
-    response_1c = requests.put("https://project-api-service-wobr53.cloud.okteto.net/progress?player=1&game=0", json=payload_1, headers=headers)
+    response_1c = requests.put("http://127.0.0.1:8000/progress?player=1&game=0", json=payload_1, headers=headers)
     assert response_1c.status_code == 404
     assert json.loads(response_1c.text)["detail"] == "Game not found"
 
@@ -315,9 +315,9 @@ def test_update_progress():
         "date_of_birth": "2023-12-18",
         "country": "BE",
         "password": "abc123!"}
-    requests.post("https://project-api-service-wobr53.cloud.okteto.net/player", json=player, headers=headers)
+    requests.post("http://127.0.0.1:8000/player", json=player, headers=headers)
     # Test non-existing progress
-    response_1d = requests.put("https://project-api-service-wobr53.cloud.okteto.net/progress?player=1&game=2", json=payload_1, headers=headers)
+    response_1d = requests.put("http://127.0.0.1:8000/progress?player=1&game=2", json=payload_1, headers=headers)
     assert response_1d.status_code == 404
     assert json.loads(response_1d.text)["detail"] == "Progress not found"
 
@@ -325,28 +325,28 @@ def test_update_progress():
 # Test delete_progress function - END: DELETE /progress
 def test_delete_progress():
     # Non-existing player
-    response_1a = requests.delete("https://project-api-service-wobr53.cloud.okteto.net/progress?player=0&game=0")
+    response_1a = requests.delete("http://127.0.0.1:8000/progress?player=0&game=0")
     assert response_1a.status_code == 404
     assert json.loads(response_1a.text)["detail"] == "Player not found"
 
     # Non-existing game
-    response_1b = requests.delete("https://project-api-service-wobr53.cloud.okteto.net/progress?player=1&game=0")
+    response_1b = requests.delete("http://127.0.0.1:8000/progress?player=1&game=0")
     assert response_1b.status_code == 404
     assert json.loads(response_1b.text)["detail"] == "Game not found"
 
     # Non-existing progress
-    response_1c = requests.delete("https://project-api-service-wobr53.cloud.okteto.net/progress?player=1&game=2")
+    response_1c = requests.delete("http://127.0.0.1:8000/progress?player=1&game=2")
     assert response_1c.status_code == 404
     assert json.loads(response_1c.text)["detail"] == "Progress entry not found"
 
-    response_1d = requests.delete("https://project-api-service-wobr53.cloud.okteto.net/progress?player=1&game=1")
+    response_1d = requests.delete("http://127.0.0.1:8000/progress?player=1&game=1")
     assert response_1d.status_code == 200
     assert json.loads(response_1d.text)["detail"] == "Progress of player 1 in game 1 has been deleted."
 
 
 # Test delete_all function - END: DELETE /reset
 def test_reset():
-    response = requests.delete("https://project-api-service-wobr53.cloud.okteto.net/reset")
+    response = requests.delete("http://127.0.0.1:8000/reset")
     assert response.status_code == 200
     response_dict = json.loads(response.text)
     assert response_dict["detail"] == "Reset successful, all data has been wiped."
