@@ -2,14 +2,7 @@ import json
 import requests
 
 
-# Test if the get_players functions blocks out unauthenticated requests
-def test_get_players_without_authentication():
-    response = requests.get("http://127.0.0.1:8000/players")
-    response_dict = json.loads(response.text)
-    assert response_dict["detail"] == "Not authenticated"
-
-
-# Test if the create_player endpoint works properly
+# Test create_player functions - END: POST /players
 def test_create_player():
     headers = {"Content-Type": "application/json"}
     payload_1 = {
@@ -54,7 +47,7 @@ def test_create_player():
     assert response_dict_3["detail"] == "Email already registered"
 
 
-# Test the OAuth-token functionality
+# Test the OAuth-token functionality - END: GET /token
 def test_token():
     headers = {
         "accept": "application/json",
@@ -72,12 +65,78 @@ def test_token():
     }
 
     token_request = requests.post("http://localhost:8000/token", data=request_data, headers=headers)
-    # print(token_request.text) -> test purposes
     token = json.loads(token_request.text)["access_token"]
 
     headers_with_token = {
         "accept": "application/json",
         "Authorization": f'Bearer {token}'
     }
-    get_request = requests.get("http://localhost:8000/users/me", headers=headers_with_token)
-    # print(get_request.text) -> test purposes
+
+    return headers_with_token
+
+
+# Test get_players function - END: GET /players
+def test_get_players():
+    # Unauthenticated
+    response_1 = requests.get("http://127.0.0.1:8000/players")
+    response_dict_1 = json.loads(response_1.text)
+    assert response_dict_1["detail"] == "Not authenticated"
+
+    # Authenticated
+    response_2 = requests.get("http://127.0.0.1:8000/players", headers=test_token())
+    assert response_2.status_code == 200
+    assert json.loads(response_2.text) == [{
+        "username": "test",
+        "email": "t@t.com",
+        "date_of_birth": "2023-12-18",
+        "country": "BE",
+        "player_id": 1,
+        "progress": []}]
+
+
+# Test if the get_player_by_username function works correctly - END: GET /players/{username}
+def test_get_player_by_username():
+    # Unauthenticated
+    response = requests.get("http://127.0.0.1:8000/players/test")
+    assert response.status_code == 401
+    response_dict = json.loads(response.text)
+    assert response_dict["detail"] == "Not authenticated"
+
+    # Authenticated, existing player
+    response_1 = requests.get("http://127.0.0.1:8000/players/test", headers=test_token())
+    # assert response_1.status_code == 200
+    assert json.loads(response_1.text) == {
+        "username": "test",
+        "email": "t@t.com",
+        "date_of_birth": "2023-12-18",
+        "country": "BE",
+        "player_id": 1,
+        "progress": []}
+
+    # Authenticated, non-existing player
+    response_2 = requests.get("http://127.0.0.1:8000/players/test_2", headers=test_token())
+    assert response_2.status_code == 404
+    response_dict_2 = json.loads(response_2.text)
+    assert response_dict_2["detail"] == "Username not found"
+
+
+# Test create_player functions - END: POST /players
+# Test get_games functions - END: GET /games
+def test_get_games():
+    # Unauthenticated
+    response_1 = requests.get("http://127.0.0.1:8000/games")
+    assert response_1.status_code == 401
+    response_dict_1 = json.loads(response_1.text)
+    assert response_dict_1["detail"] == "Not authenticated"
+
+    # Authenticated
+    response_2 = requests.get("http://127.0.0.1:8000/games", headers=test_token())
+    assert response_2.status_code == 200
+
+
+# Test delete_all function - END: DELETE /reset
+def test_reset():
+    response = requests.delete("http://127.0.0.1:8000/reset")
+    assert response.status_code == 200
+    response_dict = json.loads(response.text)
+    assert response_dict["detail"] == "Reset successful, all data has been wiped."
