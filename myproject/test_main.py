@@ -124,7 +124,7 @@ def test_get_player_by_username():
     assert response_dict_2["detail"] == "Username not found"
 
 
-# Test create_player functions - END: POST /players
+# Test create_games functions - END: POST /games
 def test_create_games():
     headers = {"Content-Type": "application/json"}
 
@@ -193,6 +193,86 @@ def test_get_games():
             "progress": []
         }
     ]
+
+
+# Test create_progress functions - END: POST /progress
+def test_create_progress():
+    headers = {"Content-Type": "application/json"}
+
+    payload_1 = {
+        "player_id": 1,
+        "game_id": 1,
+        "high_score": 12500,
+        "playtime": 4,
+        "is_completed": False,
+    }
+
+    payload_2 = {
+        "player_id": 0,
+        "game_id": 1,
+        "high_score": 9500,
+        "playtime": 1,
+        "is_completed": False,
+    }
+
+    payload_3 = {
+        "player_id": 1,
+        "game_id": 0,
+        "high_score": 45000.00,
+        "playtime": 22,
+        "is_completed": True,
+    }
+
+    # Non-existing progress
+    response_1a = requests.post("http://127.0.0.1:8000/progress", json=payload_1, headers=headers)
+    assert response_1a.status_code == 200
+    assert json.loads(response_1a.text) == {
+        "player_id": 1,
+        "game_id": 1,
+        "high_score": 12500,
+        "playtime": 4,
+        "is_completed": False,
+        "progress_id": 1
+    }
+
+    # Existing progress entry
+    response_1b = requests.post("http://127.0.0.1:8000/progress", json=payload_1, headers=headers)
+    assert response_1b.status_code == 400
+    response_dict_1 = json.loads(response_1b.text)
+    assert response_dict_1["detail"] == "Progress entry already exists"
+
+    # Non-existing player
+    response_2 = requests.post("http://127.0.0.1:8000/progress", json=payload_2, headers=headers)
+    assert response_2.status_code == 404
+    response_dict_2 = json.loads(response_2.text)
+    assert response_dict_2["detail"] == "Player not found"
+
+    # Non-existing game
+    response_3 = requests.post("http://127.0.0.1:8000/progress", json=payload_3, headers=headers)
+    assert response_3.status_code == 404
+    response_dict_3 = json.loads(response_3.text)
+    assert response_dict_3["detail"] == "Game not found"
+
+
+# Test get_progress function - END: GET /progress
+def test_get_progress():
+    # Unauthenticated
+    response_1 = requests.get("http://127.0.0.1:8000/progress")
+    assert response_1.status_code == 401
+    response_dict_1 = json.loads(response_1.text)
+    assert response_dict_1["detail"] == "Not authenticated"
+
+    # Authenticated
+    response_2 = requests.get("http://127.0.0.1:8000/progress", headers=test_token())
+    assert response_2.status_code == 200
+    assert json.loads(response_2.text) == [{
+        "player_id": 1,
+        "game_id": 1,
+        "high_score": 12500,
+        "playtime": 4,
+        "is_completed": False,
+        "progress_id": 1
+    }]
 
 
 # Test delete_all function - END: DELETE /reset
