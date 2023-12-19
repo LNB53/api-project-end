@@ -275,6 +275,75 @@ def test_get_progress():
     }]
 
 
+# Test update_progress function - END: PUT /progress
+def test_update_progress():
+    headers = {"Content-Type": "application/json"}
+
+    payload_1 = {
+        "high_score": 15000,
+        "playtime": 6,
+        "is_completed": True,
+    }
+
+    # Updatable progress
+    response_1a = requests.put("http://127.0.0.1:8000/progress?player=1&game=1", json=payload_1, headers=headers)
+    assert response_1a.status_code == 200
+    assert json.loads(response_1a.text) == {
+        "game_id": 1,
+        "high_score": 15000.0,
+        "is_completed": True,
+        "player_id": 1,
+        "playtime": 6,
+        "progress_id": 1
+    }
+
+    # Non-existing player
+    response_1b = requests.put("http://127.0.0.1:8000/progress?player=0&game=1", json=payload_1, headers=headers)
+    assert response_1b.status_code == 404
+    assert json.loads(response_1b.text)["detail"] == "Player not found"
+
+    # Non-existing game
+    response_1c = requests.put("http://127.0.0.1:8000/progress?player=1&game=0", json=payload_1, headers=headers)
+    assert response_1c.status_code == 404
+    assert json.loads(response_1c.text)["detail"] == "Game not found"
+
+    # Non-existing progress
+    # Create extra player
+    player = {
+        "username": "test2",
+        "email": "test@t.com",
+        "date_of_birth": "2023-12-18",
+        "country": "BE",
+        "password": "abc123!"}
+    requests.post("http://127.0.0.1:8000/player", json=player, headers=headers)
+    # Test non-existing progress
+    response_1d = requests.put("http://127.0.0.1:8000/progress?player=1&game=2", json=payload_1, headers=headers)
+    assert response_1d.status_code == 404
+    assert json.loads(response_1d.text)["detail"] == "Progress not found"
+
+
+# Test delete_progress function - END: DELETE /progress
+def test_delete_progress():
+    # Non-existing player
+    response_1a = requests.delete("http://127.0.0.1:8000/progress?player=0&game=0")
+    assert response_1a.status_code == 404
+    assert json.loads(response_1a.text)["detail"] == "Player not found"
+
+    # Non-existing game
+    response_1b = requests.delete("http://127.0.0.1:8000/progress?player=1&game=0")
+    assert response_1b.status_code == 404
+    assert json.loads(response_1b.text)["detail"] == "Game not found"
+
+    # Non-existing progress
+    response_1c = requests.delete("http://127.0.0.1:8000/progress?player=1&game=2")
+    assert response_1c.status_code == 404
+    assert json.loads(response_1c.text)["detail"] == "Progress entry not found"
+
+    response_1d = requests.delete("http://127.0.0.1:8000/progress?player=1&game=1")
+    assert response_1d.status_code == 200
+    assert json.loads(response_1d.text)["detail"] == "Progress of player 1 in game 1 has been deleted."
+
+
 # Test delete_all function - END: DELETE /reset
 def test_reset():
     response = requests.delete("http://127.0.0.1:8000/reset")
