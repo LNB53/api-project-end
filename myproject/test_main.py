@@ -108,7 +108,7 @@ def test_get_player_by_username():
 
     # Authenticated, existing player
     response_1 = requests.get("https://project-api-service-wobr53.cloud.okteto.net/players/test", headers=test_token())
-    # assert response_1.status_code == 200
+    assert response_1.status_code == 200
     assert json.loads(response_1.text) == {
         "username": "test",
         "email": "t@t.com",
