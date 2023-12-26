@@ -28,7 +28,8 @@ app.add_middleware(CORSMiddleware,
                    allow_origins=["*"],
                    allow_credentials=True,
                    allow_methods=["*"],
-                   allow_headers=["*"],)
+                   allow_headers=["*"], )
+
 
 # Dependency
 # Start the database, if there is an error -> close it

@@ -23,7 +23,7 @@ function getToken(event) {
         formData.append(key, userData[key]);
     }
 
-    fetch('http://127.0.0.1:8000/token', {
+    fetch('https://project-api-service-wobr53.cloud.okteto.net/token', {
         method: 'POST',
         headers: {
             'Content-Type': 'application/x-www-form-urlencoded',
@@ -39,7 +39,8 @@ function getToken(event) {
         })
         .then(data => {
             authToken = data.access_token;
-            console.log('Auth:', authToken)
+            const formattedData = JSON.stringify(data, null, 2);
+            document.getElementById('responseDiv').innerHTML = '<pre>' + formattedData + '</pre>';
         })
         .catch(response => {
             if (response.status === 401) {
@@ -54,7 +55,7 @@ function getToken(event) {
 
 // Function to Get all Players
 function getPlayers() {
-    fetch('http://127.0.0.1:8000/players', {
+    fetch('https://project-api-service-wobr53.cloud.okteto.net/players', {
         headers: {
             'Authorization': 'Bearer ' + authToken
         }
@@ -87,7 +88,7 @@ function getPlayerByUsername() {
     event.preventDefault();
 
     const username = document.getElementById('findUsername').value;
-    const url = `http://127.0.0.1:8000/players/${username}`
+    const url = `https://project-api-service-wobr53.cloud.okteto.net/players/${username}`
     console.log('Request URL:', url)
     fetch(url, {
         headers: {
@@ -135,7 +136,7 @@ function postPlayer(event) {
         password: password
     };
 
-    fetch('http://127.0.0.1:8000/players', {
+    fetch('https://project-api-service-wobr53.cloud.okteto.net/players', {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json',
@@ -170,7 +171,7 @@ function postPlayer(event) {
 
 // Function to Get all Games
 function getGames() {
-    fetch('http://127.0.0.1:8000/games', {
+    fetch('https://project-api-service-wobr53.cloud.okteto.net/games', {
         headers: {
             'Authorization': 'Bearer ' + authToken
         }
@@ -214,7 +215,7 @@ function postGame(event) {
         developer: developer
     };
 
-    fetch('http://127.0.0.1:8000/games', {
+    fetch('https://project-api-service-wobr53.cloud.okteto.net/games', {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json',
@@ -249,7 +250,7 @@ function postGame(event) {
 
 // Function to Get all Progress
 function getProgress() {
-    fetch('http://127.0.0.1:8000/progress', {
+    fetch('https://project-api-service-wobr53.cloud.okteto.net/progress', {
         headers: {
             'Authorization': 'Bearer ' + authToken
         }
@@ -297,7 +298,7 @@ function postProgress(event) {
         is_completed: is_completed
     };
 
-    fetch('http://127.0.0.1:8000/progress', {
+    fetch('https://project-api-service-wobr53.cloud.okteto.net/progress', {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json',
@@ -350,7 +351,7 @@ function updateProgress(event) {
         is_completed: is_completed
     };
 
-    const url = `http://127.0.0.1:8000/progress/?player=${player}&game=${game}`
+    const url = `https://project-api-service-wobr53.cloud.okteto.net/progress/?player=${player}&game=${game}`
     console.log('Request URL:', url)
     fetch(url, {
         method: 'PUT',
@@ -393,7 +394,7 @@ function deleteProgress() {
 
     const player = document.getElementById('findPlayer').value;
     const game = document.getElementById('findGame').value;
-    const url = `http://127.0.0.1:8000/progress/?player=${player}&game=${game}`
+    const url = `https://project-api-service-wobr53.cloud.okteto.net/progress/?player=${player}&game=${game}`
     console.log('Request URL:', url)
     fetch(url, {
         method: 'DELETE'
@@ -420,7 +421,7 @@ function deleteProgress() {
 
 // Reset function
 function reset() {
-    fetch('http://127.0.0.1:8000/reset', {
+    fetch('https://project-api-service-wobr53.cloud.okteto.net/reset', {
         method: 'DELETE'
     })
         .then(response => response.json())
