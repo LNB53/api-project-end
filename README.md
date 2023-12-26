@@ -152,4 +152,4 @@ Nu zal je zien dat de progressie volledig is verwijderd uit de databank.
 
 ## Testing
 Om aan te vereisten van AANVULLING: FUNCTIE te voldoen, heb ik een [test_main.py](/test_main.py)-file aangemaakt. Deze is in staat om alle endpoints te testen op betrouwbare manier. Zo weet ik meteen wanneer er iets fout is gelopen.
-Daarnaast heb ik ook een extra job aangemaakt in [workflow.yml](/workflows/workflow.yml) die de testfile automatisch start bij elke nieuwe commit.
+Daarnaast heb ik ook een extra job aangemaakt in [workflow.yml](/.github/workflows/workflow.yml) die de testfile automatisch start bij elke nieuwe commit.
