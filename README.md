@@ -156,3 +156,9 @@ Daarnaast heb ik ook een extra job aangemaakt in [workflow.yml](/.github/workflo
 
 ## Front-End
 Voor de front-end aanvullingen ben ik tot en met 3.1.2 gegaan. Dit wil zeggen dat ik een paar html-files, een css-file en een js-file aangemaakt. Deze zijn allemaal te vinden in de [html-folder](/myproject/html). Vervolgens heb ik de site online gezet via Netlify. De link hiervan vind je [bovenaan](#) dit document.
+
+>[!NOTE]
+>De authorisatie functie op de zelfgemaakte front-end werkt niet volledig omdat ik niet wist hoe ik dit soort zaken moet invoeren in HTML of JS.
+
+>[!NOTE]
+>De zelfgemaakte frontend is enkel voorzien op desktop gebruikers. Als de schermgrootte smaller wordt dan 768px dan begint de layout te breken. Dit probleem is relatief gemakkelijk op te lossen, maar wij zijn geen app richting en styling is niet onze prioriteit.
