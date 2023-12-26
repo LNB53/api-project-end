@@ -1,6 +1,21 @@
 # Basisproject API Development
 
 Link to API: https://project-api-service-wobr53.cloud.okteto.net/docs#/
+Link to Netlify Frontend: https://api-end-project.netlify.app
+
+### Oplijsting uitgewerkte nummers
+1. ALGEMENE EISEN & DOCUMENTATIE
+  - Alles.
+2. AANVULLINGEN: FUNCTIE
+  2.1 Test alle niet-GET endpoints.
+  2.2 Zorg ervoor dat de testfile ook tijdens de GitHub Actions gerund wordt.
+3. AANVULLINGEN: FRONT-END
+  3.1 Maak een front-end voor je applicatie die al je GET endpoints en POST endpoints bevat.
+    3.1.1 Host de front-end op Netlify.
+    3.1.2 Geef de front-end een leuke stijlgeving.
+
+>[NOTE]
+>Klik [hier](#Testing) om verder te gaan naar de nieuwe documentatie.
 
 >[!IMPORTANT]
 >De databank-gegevens die u te zijn krijgt als u de link opent kunnen verschillen met volgende printscreens zijn omwille van verder testing!
@@ -132,3 +147,7 @@ Hier zijn ook weer drie vereisten van toepassing:
 Nu zal je zien dat de progressie volledig is verwijderd uit de databank.
 
 ![Verificatie verwijdering.](https://github.com/wobr53/apidev-project/assets/113974538/ef5b69fe-d1e2-49da-b276-2a94c98750f8 "Verificatie verwijdering.")
+
+## Testing
+Om aan te vereisten van AANVULLING: FUNCTIE te voldoen, heb ik een [test_main.py](/test_main.py)-file aangemaakt. Deze is in staat om alle endpoints te testen op betrouwbare manier. Zo weet ik meteen wanneer er iets fout is gelopen.
+Daarnaast heb ik ook een extra job aangemaakt in [workflow.yml](/workflows/workflow.yml) die de testfile automatisch start bij elke nieuwe commit.
