@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Eindproject Frontend</title>
+    <link rel="stylesheet" href="style.css">
+    <script src="js/main.js"></script>
+</head>
+<body>
+<header>
+    <nav class="navbar">
+        <div class="logo">
+            <a href="https://fastapi.tiangolo.com">
+                <img src="img/fastapi.png" alt="Logo FastAPI">
+            </a>
+            <p style="margin-right: 20px;">|</p>
+            <p>Eindproject</p>
+        </div>
+        <ul class="nav-links">
+            <li><a href="index.html">Home</a></li>
+            <li><a href="players.html">Players</a></li>
+            <li><a href="games.html">Games</a></li>
+            <li><a href="progress.html">Progress</a></li>
+        </ul>
+    </nav>
+</header>
+<h1>API Frontend | Players</h1>
+<div class="container">
+    <div class="requestDiv">
+        <!-- GET Players Button -->
+        <h2>Get Players</h2>
+        <button onclick="getPlayers()">Get Players</button>
+
+        <!-- GET Player by Username Form -->
+        <h2>Get Player by Username</h2>
+        <form onsubmit="getPlayerByUsername(event)">
+            <label for="findUsername">Username:</label>
+            <input type="text" id="findUsername" required>
+
+            <button type="submit">Search</button>
+        </form>
+
+        <!-- POST Players Form -->
+        <h2>Create Player</h2>
+        <form onsubmit="postPlayer(event)">
+            <label for="usernameInput">Username:</label>
+            <input type="text" id="usernameInput" required>
+
+            <label for="emailInput">Email:</label>
+            <input type="email" id="emailInput" required>
+
+            <label for="dobInput">Date of Birth:</label>
+            <input type="date" id="dobInput" required>
+
+            <label for="countryInput">Country:</label>
+            <input type="text" id="countryInput" required>
+
+            <label for="passwordInput">Password:</label>
+            <input type="password" id="passwordInput" required>
+
+            <button type="submit">Create</button>
+        </form>
+    </div>
+    <div class="responseDiv">
+        <h2>API Response</h2>
+        <div id="responseDiv"></div>
+    </div>
+</div>
+</body>
+</html>

@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Eindproject Frontend</title>
+    <link rel="stylesheet" href="style.css">
+    <script src="js/main.js"></script>
+</head>
+<body>
+<header>
+    <nav class="navbar">
+        <div class="logo">
+            <a href="https://fastapi.tiangolo.com">
+                <img src="img/fastapi.png" alt="Logo FastAPI">
+            </a>
+            <p style="margin-right: 20px;">|</p>
+            <p>Eindproject</p>
+        </div>
+        <ul class="nav-links">
+            <li><a href="index.html">Home</a></li>
+            <li><a href="players.html">Players</a></li>
+            <li><a href="games.html">Games</a></li>
+            <li><a href="progress.html">Progress</a></li>
+        </ul>
+    </nav>
+</header>
+<h1>API Frontend | Games</h1>
+<div class="container">
+    <div class="requestDiv">
+        <!-- GET Games Button -->
+        <h2>Get Games</h2>
+        <button onclick="getGames()">Get Games</button>
+
+        <!-- POST Games Form -->
+        <h2>Create Game</h2>
+        <form onsubmit="postGame(event)">
+            <label for="titleInput">Title:</label>
+            <input type="text" id="titleInput" required>
+
+            <label for="rdInput">Release Date:</label>
+            <input type="date" id="rdInput" required>
+
+            <label for="genreInput">Genre:</label>
+            <input type="text" id="genreInput" required>
+
+            <label for="developerInput">Developer:</label>
+            <input type="text" id="developerInput" required>
+
+            <button type="submit">Create</button>
+        </form>
+    </div>
+    <div class="responseDiv">
+        <h2>API Response</h2>
+        <div id="responseDiv"></div>
+    </div>
+</div>
+</body>
+</html>

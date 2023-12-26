@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Eindproject Frontend</title>
+    <link rel="stylesheet" href="style.css">
+    <script src="js/main.js"></script>
+</head>
+<body>
+<header>
+    <nav class="navbar">
+        <div class="logo">
+            <a href="https://fastapi.tiangolo.com">
+                <img src="img/fastapi.png" alt="Logo FastAPI">
+            </a>
+            <p style="margin-right: 20px;">|</p>
+            <p>Eindproject</p>
+        </div>
+        <ul class="nav-links">
+            <li><a href="index.html">Home</a></li>
+            <li><a href="players.html">Players</a></li>
+            <li><a href="games.html">Games</a></li>
+            <li><a href="progress.html">Progress</a></li>
+        </ul>
+    </nav>
+</header>
+<h1>API Frontend | Home</h1>
+<div class="container">
+    <div class="requestDiv">
+        <!-- Authentication -->
+        <h2>Authentication</h2>
+        <form onsubmit="getToken(event)">
+            <label for="usernameIn">Username:</label>
+            <input type="text" id="usernameIn" required>
+
+            <label for="passwordIn">Password:</label>
+            <input type="password" id="passwordIn" required>
+
+            <button type="submit">Login</button>
+        </form>
+
+        <!-- DELETE All Button -->
+        <h2>Delete all</h2>
+        <button onclick="reset()">Reset All</button>
+    </div>
+    <div class="responseDiv">
+        <h2>API Response</h2>
+        <div id="responseDiv"></div>
+    </div>
+</div>
+</body>
+</html>
