@@ -16,7 +16,7 @@ Link to Netlify Frontend: https://api-end-project.netlify.app
     3.1.1 Host de front-end op Netlify.
     3.1.2 Geef de front-end een leuke stijlgeving.
 
->[NOTE]
+>[!NOTE]
 >Klik [hier](#Testing) om verder te gaan naar de nieuwe documentatie.
 
 >[!IMPORTANT]
