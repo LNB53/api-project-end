@@ -154,6 +154,9 @@ Nu zal je zien dat de progressie volledig is verwijderd uit de databank.
 Om aan te vereisten van AANVULLING: FUNCTIE te voldoen, heb ik een [test_main.py](/test_main.py)-file aangemaakt. Deze is in staat om alle endpoints te testen op betrouwbare manier. Zo weet ik meteen wanneer er iets fout is gelopen.
 Daarnaast heb ik ook een extra job aangemaakt in [workflow.yml](/.github/workflows/workflow.yml) die de testfile automatisch start bij elke nieuwe commit.
 
+>[!NOTE]
+>De tests gaan er vanuit dat de databank leeg is. Indien dit niet het geval is, zullen ze failen.
+
 ## Front-End
 Voor de front-end aanvullingen ben ik tot en met 3.1.2 gegaan. Dit wil zeggen dat ik een paar html-files, een css-file en een js-file aangemaakt. Deze zijn allemaal te vinden in de [html-folder](/myproject/html). Vervolgens heb ik de site online gezet via Netlify. De link hiervan vind je [bovenaan](#) dit document.
 
