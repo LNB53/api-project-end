@@ -1,5 +1,9 @@
 # Basisproject API Development
 
+>[!IMPORTANT]
+>Sinds januari 2024 is okteto een betalende service geworden. Aangezien uvicorn werd opgestart door okteto, zullen de onderstaande links niet langer (naar behoren) werken.
+>Ik raad aan om de applicatie in een lokale docker compose 'cluster' te draaien, de lokale test_main.py file te gebruiken in main.js de okteto-links aan te passen naar een localhost.
+
 Link to API: https://project-api-service-wobr53.cloud.okteto.net/docs#/
 
 
